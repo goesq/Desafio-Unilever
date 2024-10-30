@@ -1,11 +1,12 @@
+
 /* Tema claro (padrão) */
 :root {
     --button-bg-primary: #3366FF;
     --button-bg-secondary: #3366FF;
-    --text-light: #969696;
-    --text-dark: #2D2D2D;
+    --text-light: #8f8c8c;
+    --text-dark: #202020;
     --main-section-bg: #F7F5FD;
-    --border-light: #D0D0D0;
+    --border-light: #ebe3e3;
     --background-color: #ffffff;
 }
 
