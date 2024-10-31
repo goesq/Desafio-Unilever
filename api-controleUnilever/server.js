@@ -14,7 +14,7 @@ const authRoutes = require('./Routes/authRoutes');
 const productRoutes = require('./Routes/produtos'); 
 
 // Conexão com o MongoDB
-mongoose.connect('mongodb+srv://nicolasmpontes:12345@cluster0.fpy2o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://techapoiosenai:12345@cluster0.3dcip.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log('Mongodb conectado')).catch(err => console.error('Erro ao conectar no mongo', err));
