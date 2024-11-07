@@ -20,7 +20,7 @@ mongoose.connect('mongodb+srv://techapoiosenai:12345@cluster0.3dcip.mongodb.net/
 }).then(() => console.log('Mongodb conectado')).catch(err => console.error('Erro ao conectar no mongo', err));
 
 // Importação das rotas
-app.use('/api/produtos', productRoutes); 
+app.use('/api/produtos', productRoutes);
 app.use('/api/auth', authRoutes);
 
 // Define a porta do servidor

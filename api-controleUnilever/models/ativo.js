@@ -11,14 +11,19 @@ const AtivoSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    valor: {
+    lote: {
         type: Number,
         required: true
     },
-    lote:{
-        type: Number,
+    tipo: {
+        type: String,
         required: true
+    },
+    id_ativo: {
+        type: String,
+        required:true
     }
+
 });
 
 // Exportando o modelo para salvar os ativos

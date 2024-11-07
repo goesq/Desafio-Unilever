@@ -1,56 +1,103 @@
-// Cria as rotas
-const express = require('express'); // importa o express para criar o servidor
-const Product = require('../models/ativo'); // importa o modelo dos produtos
-const router = express.Router(); // cria o elemento para rotear com base nas requisições
+const express = require('express');
+const Product = require('../models/ativo');
+const router = express.Router();
+
+// Middleware para analisar o corpo da requisição
+router.use(express.json());
 
 // Rota para cadastrar um novo produto (POST)
 router.post('/', async (req, res) => {
-    const { nome, quantidade, valor, lote } = req.body; // Extrai os dados da requisição
-    // tenta salvar o produto no banco de dados
+    const { nome, quantidade, tipo, lote , id_ativo} = req.body;
+
     try {
-        const newProduct = new Product({ nome, quantidade, valor, lote });
+        const newProduct = new Product({ nome, quantidade, tipo, lote, id_ativo });
         await newProduct.save();
-        // 201 - código de status 
-        res.status(201).json(newProduct);
+
+        res.status(201).json(newProduct); // 201 - Produto criado
     } catch (error) {
+        console.error('Erro ao cadastrar ativo:', error);
         res.status(500).json({ message: 'Erro ao cadastrar ativo', error });
     }
 });
 
 // Rota para buscar todos os produtos (GET)
-router.get('/', async (req, res) => {
+router.get('/produtos', async (req, res) => {
     try {
-        const products = await Product.find(); // busca todos os produtos com o método find
-        res.status(200).json(products); // retorna a lista de produtos
+      const { dataInicial, dataFinal } = req.query;
+      
+      if (!dataInicial || !dataFinal) {
+        return res.status(400).json({ message: 'Data inicial e data final são obrigatórias.' });
+      }
+  
+      const produtos = await Product.find({
+        dataEnvio: {
+          $gte: new Date(dataInicial),
+          $lte: new Date(dataFinal)
+        }
+      });
+  
+      res.json(produtos);
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao buscar ativo', error }); // retorna o erro se houver
+      console.error('Erro ao gerar relatório:', error);
+      res.status(500).json({ message: 'Erro ao gerar relatório' });
     }
-});
-
+  });
+  
+  module.exports = router;
+  
 // Rota para atualizar um produto (PUT)
 router.put('/:id', async (req, res) => {
-    const { nome, quantidade, valor, lote } = req.body; // extrai o conteúdo da requisição
+    const { nome, quantidade, valor, lote, id_ativo } = req.body;
+
+    if (!req.params.id) {
+        return res.status(400).json({ message: 'ID do produto é necessário.' });
+    }
+
+    if (!nome || quantidade === undefined || valor === undefined || !lote) {
+        return res.status(400).json({ message: 'Campos nome, quantidade, valor e lote são obrigatórios.' });
+    }
+
     try {
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
-            { nome, quantidade, valor, lote },
+            { nome, quantidade, valor, lote, id_ativo },
             { new: true }
         );
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Produto não encontrado.' });
+        }
+
         res.status(200).json(updatedProduct);
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao atualizar Ativo', error });
+        console.error('Erro ao atualizar ativo:', error);
+        res.status(500).json({ message: 'Erro ao atualizar ativo', error });
     }
 });
 
-// Rota para deletar um produto pelo ID (DELETE)
-router.delete('/:id', async (req, res) => {
+// Rota para deletar um produto com base no lote e quantidade (DELETE)
+router.delete('/:id_ativo', async (req, res) => {
+    const { id_ativo } = req.params; // Pega o id_ativo da URL
+
+    if (!id_ativo) {
+        return res.status(400).json({ message: 'id_ativo é necessário.' });
+    }
+
     try {
-        await Product.findByIdAndDelete(req.params.id);
-        res.status(200).json({ message: 'Ativo deletado com sucesso' });
+        const deletedProducts = await Product.deleteMany({
+            id_ativo: id_ativo  // Remover todos os produtos com esse id_ativo
+        });
+
+        if (deletedProducts.deletedCount === 0) {
+            return res.status(404).json({ message: 'Nenhum produto encontrado com esse id_ativo.' });
+        }
+
+        res.status(200).json({ message: `${deletedProducts.deletedCount} produto(s) deletado(s) com sucesso` });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao deletar Ativo', error });
+        console.error('Erro ao deletar ativo:', error);
+        res.status(500).json({ message: 'Erro ao deletar ativo', error });
     }
 });
 
-// Exporta o roteador para usar no server.js
+
 module.exports = router;
