@@ -2,8 +2,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../components/LoginComponent.vue'; // Caminho para o componente de login
 import Ativos from '../components/AtivosComponent.vue'; // Caminho para o componente de ativos
-import Deletar from '../components/deletecomponent.vue'; // Corrigido o nome para a convenção PascalCase
-import Relatorio from '../components/RelatorioComponents.vue'; // Certifique-se que o nome do arquivo e o caminho estejam corretos
+import Deletar from '../components/DeletadoComponent.vue'; // Corrigido o nome do arquivo
+import Relatorio from '../components/RelatorioComponents.vue'; // Corrigido o nome para singular
+import Help from '../components/AjudasComponent.vue';
+import Alterar from '../components/AlterarComponents.vue';
 
 Vue.use(VueRouter);
 
@@ -20,16 +22,25 @@ const routes = [
         meta: { requiresAuth: true }, // Rota protegida
     },
     {
+        path: '/help',
+        name: 'Help',
+        component: Help,
+     
+    },
+    {
         path: '/remover',
         name: 'Deletar',
         component: Deletar,
-        meta: { requiresAuth: true }, // Protegendo com autenticação
     },
     {
         path: '/relatorio',
         name: 'Relatorio',
         component: Relatorio,
-        meta: { requiresAuth: true }, // Rota protegida
+    },
+    {
+        path: '/alterar',
+        name: 'Alterar',
+        component: Alterar,
     },
     {
         path: '*',
