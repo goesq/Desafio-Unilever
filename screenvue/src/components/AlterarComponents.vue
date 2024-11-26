@@ -51,21 +51,26 @@ export default {
     };
   },
   created() {
-    // Verifica se o id_ativo foi fornecido na URL ou de algum outro lugar
+    // Se o id_ativo for passado como parâmetro, carregamos os dados do ativo.
     if (this.id_ativo) {
       this.carregarAtivo(this.id_ativo);
     }
   },
   methods: {
     toggleDarkMode() {
-      // Função para alternar entre modo claro e escuro
+      // Alterna entre modo claro e escuro
       document.body.classList.toggle('dark-mode');
     },
-    // Método para carregar os dados do ativo com base no id_ativo
+    // Método para carregar os dados do ativo baseado no id_ativo
     carregarAtivo(id) {
-      // Exemplo de chamada para uma API para buscar o ativo
+      // Substitua a URL pela URL da sua API real
       fetch(`https://api.example.com/ativos/${id}`)
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Erro ao carregar ativo. Status: ${response.status}`);
+          }
+          return response.json();
+        })
         .then(data => {
           this.nome = data.nome;
           this.quantidade = data.quantidade;
@@ -74,25 +79,26 @@ export default {
         })
         .catch(error => {
           console.error('Erro ao carregar o ativo:', error);
+          alert("Erro ao carregar o ativo.");
         });
     },
-    // Método para alterar os dados do ativo
+    // Método para alterar o ativo
     alterarAtivo() {
       // Verifica se todos os campos estão preenchidos
       if (!this.nome || !this.quantidade || !this.lote || !this.tipo || !this.id_ativo) {
         alert("Todos os campos devem ser preenchidos!");
         return;
       }
-      
-      // Criando o objeto com os dados a serem alterados
+
+      // Objeto com os dados a serem alterados
       const ativo = {
         nome: this.nome,
         quantidade: this.quantidade,
         lote: this.lote,
         tipo: this.tipo
       };
-      
-      // Exemplo de chamada para a API para alterar o ativo
+
+      // Envia a requisição PUT para alterar o ativo
       fetch(`https://api.example.com/ativos/${this.id_ativo}`, {
         method: 'PUT', // Método de atualização
         headers: {
@@ -100,14 +106,19 @@ export default {
         },
         body: JSON.stringify(ativo)
       })
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Erro ao alterar o ativo. Status: ${response.status}`);
+          }
+          return response.json();
+        })
         .then(data => {
           console.log('Ativo alterado com sucesso:', data);
           alert("Ativo alterado com sucesso!");
         })
         .catch(error => {
           console.error('Erro ao alterar o ativo:', error);
-          alert("Erro ao alterar o ativo.");
+          alert("Erro ao alterar o ativo: " + error.message);
         });
     }
   }
