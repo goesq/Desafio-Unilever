@@ -25,6 +25,8 @@
             <input type="number" placeholder="Quantidade" v-model="quantidade" />
             <input type="number" placeholder="Lote" v-model="lote" />
             <input type="text" placeholder="Tipo" v-model="tipo" />
+            <input type="text" placeholder="id_ativo" v-model="id_ativo" />
+            
             <button @click="adicionarAtivo"><b>Adicionar</b></button>
             <p v-if="mensagem" :class="{'success': sucesso, 'error': !sucesso}">{{ mensagem }}</p>
           </div>
@@ -52,6 +54,7 @@ export default {
       quantidade: 0, // Usando 0 como valor padrão
       lote: 0,       // Usando 0 como valor padrão
       tipo: '',
+      id_ativo: '',
       mensagem: '',  // Para feedback ao usuário
       sucesso: false, // Para indicar se a operação foi bem-sucedida
     };
@@ -59,7 +62,7 @@ export default {
   methods: {
     async adicionarAtivo() {
       // Verificar se todos os campos estão preenchidos
-      if (!this.nome || !this.quantidade || !this.tipo || !this.lote) {
+      if (!this.nome || !this.quantidade || !this.tipo || !this.lote||!this.id_ativo) {
         this.sucesso = false;
         this.mensagem = 'Todos os campos são obrigatórios!';
         return;
@@ -71,6 +74,7 @@ export default {
         quantidade: Number(this.quantidade), // Garantir que é um número
         lote: Number(this.lote),             // Garantir que é um número
         tipo: this.tipo,
+        id_ativo:this.id_ativo
       };
       
       console.log('Dados enviados para o backend:', novoAtivo); // Verifique no console se os dados estão corretos
@@ -98,6 +102,7 @@ export default {
       this.quantidade = 0;
       this.lote = 0;
       this.tipo = '';
+      this.id_ativo = '';
     }
   },
 };
