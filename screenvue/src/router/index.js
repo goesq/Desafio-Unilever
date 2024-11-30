@@ -14,6 +14,7 @@ const routes = [
         path: '/',
         name: 'Login',
         component: Login, // Define a página de login como rota principal
+        meta: { title: 'Controle Unilever' }
     },
     {
         path: '/ativos',
