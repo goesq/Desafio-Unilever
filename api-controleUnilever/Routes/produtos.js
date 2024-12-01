@@ -1,9 +1,15 @@
 const express = require('express');
 const Product = require('../models/ativo');
 const router = express.Router();
+const mongoose = require('mongoose');
 
 // Middleware para analisar o corpo da requisição
 router.use(express.json());
+
+mongoose.connect('mongodb+srv://techapoiosenai:12345@cluster0.3dcip.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log('Mongodb conectado')).catch(err => console.error('Erro ao conectar no mongo', err));
 
 // Rota para cadastrar um novo produto (POST)
 router.post('/', async (req, res) => {
@@ -23,27 +29,24 @@ router.post('/', async (req, res) => {
 // Rota para buscar todos os produtos (GET)
 router.get('/produtos', async (req, res) => {
     try {
-      const { dataInicial, dataFinal } = req.query;
-      
-      if (!dataInicial || !dataFinal) {
-        return res.status(400).json({ message: 'Data inicial e data final são obrigatórias.' });
-      }
-  
-      const produtos = await Product.find({
-        dataEnvio: {
-          $gte: new Date(dataInicial),
-          $lte: new Date(dataFinal)
-        }
-      });
-  
-      res.json(produtos);
+        const produtos = await Product.find(); // Retorna todos os produtos
+        
+        // Adicionando ênfase aos itens, destacando nome e quantidade
+        const produtosComEnfase = produtos.map(produto => ({
+            nome: `**${produto.nome}**`, // Nome em negrito (ou outro tipo de ênfase)
+            quantidade: `**${produto.quantidade}**`, // Quantidade em negrito
+            tipo: produto.tipo,
+            lote: produto.lote,
+            id_ativo: produto.id_ativo,
+            // Você pode adicionar outros campos aqui com ênfase se necessário
+        }));
+
+        res.json(produtosComEnfase);
     } catch (error) {
-      console.error('Erro ao gerar relatório:', error);
-      res.status(500).json({ message: 'Erro ao gerar relatório' });
+        console.error('Erro ao gerar relatório:', error);
+        res.status(500).json({ message: 'Erro ao gerar relatório' });
     }
-  });
-  
-  module.exports = router;
+});
   
 // Rota para atualizar um produto (PUT)
 router.put('/:id', async (req, res) => {

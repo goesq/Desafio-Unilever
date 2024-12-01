@@ -65,7 +65,7 @@
   
         // Envia os parâmetros para o backend
         try {
-          const response = await axios.get('http://localhost:5000/api/produtos', { // Corrigido o endpoint para "/api/produtos"
+          const response = await axios.get('http://localhost:5000/api/produtos/produtos', { // Corrigido o endpoint para "/api/produtos"
             params: {
               dataInicial: this.dataInicial,
               dataFinal: this.dataFinal,
