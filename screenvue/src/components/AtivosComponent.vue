@@ -51,8 +51,8 @@ export default {
   data() {
     return {
       nome: '',
-      quantidade: 0, // Usando 0 como valor padrão
-      lote: 0,       // Usando 0 como valor padrão
+      quantidade: '', // Usando 0 como valor padrão
+      lote: '',       // Usando 0 como valor padrão
       tipo: '',
       id_ativo: '',
       mensagem: '',  // Para feedback ao usuário
