@@ -15,4 +15,4 @@ Este projeto tem como objetivo desenvolver uma solução de controle e gerenciam
 
 - **Front-end:** HTML, CSS, JavaScript, Vue.js
 - **Back-end:** JavaScript (Node.js)
-- **Gráficos:** Chart.js
+- **Relatórios:** XLSX (Excel)
