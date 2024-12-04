@@ -10,10 +10,9 @@
       <nav class="nav-links">
         <router-link to="/ativos">Adicionar</router-link>
         <router-link to="/remover">Remover</router-link>
-        <router-link to="#">Alterar</router-link>
+        <router-link to="/alterar">Alterar</router-link>
         <router-link to="/relatorio">Relatório</router-link>
         <router-link to="/help">Ajuda</router-link>
-        <i class="fa-solid fa-moon" @click="toggleDarkMode"></i>
       </nav>
     </header>
 

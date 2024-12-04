@@ -9,13 +9,12 @@
         </div>
   
         <nav class="nav-links">
-          <router-link to="/ativos">Adicionar</router-link>
-          <router-link to="/remover">Remover</router-link>
-          <router-link to="/alterar">Alterar</router-link>
-          <router-link to="/relatorio">Relatório</router-link>
-          <router-link to="/help">Ajuda</router-link>
-          <i class="fa-solid fa-moon" @click="toggleDarkMode"></i>
-        </nav>
+        <router-link to="/ativos">Adicionar</router-link>
+        <router-link to="/remover">Remover</router-link>
+        <router-link to="/alterar">Alterar</router-link>
+        <router-link to="/relatorio">Relatório</router-link>
+        <router-link to="/help">Ajuda</router-link>
+      </nav>
       </header>
   
       <!-- Seção Principal -->

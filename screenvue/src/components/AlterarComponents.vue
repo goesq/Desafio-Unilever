@@ -6,14 +6,13 @@
           <img src="@/assets/images/controleunilever.png" alt="Logo icon">
         </a>
       </div>
-      
+
       <nav class="nav-links">
-        <a href="ativos.html">Adicionar</a>
-        <a href="remover.html">Remover</a>
-        <a href="#">Alterar</a>
-        <a href="relatorio.html">Relatório</a>
-        <a href="help.html">Ajuda</a>
-        <i class="fa-solid fa-moon" @click="toggleDarkMode"></i>
+        <router-link to="/ativos">Adicionar</router-link>
+        <router-link to="/remover">Remover</router-link>
+        <router-link to="/alterar">Alterar</router-link>
+        <router-link to="/relatorio">Relatório</router-link>
+        <router-link to="/help">Ajuda</router-link>
       </nav>
     </header>
 
@@ -22,11 +21,12 @@
         <div class="login-container">
           <div class="text-wrapper">
             <h1>EDITAR ATIVOS</h1>
+            <input v-model="id_ativo" type="text" placeholder="ID Ativo" />
+            <button @click="carregarAtivo">Carregar Ativo</button> <!-- Alterado para clicar no botão -->
             <input v-model="nome" type="text" placeholder="Nome" />
             <input v-model="quantidade" type="number" placeholder="Quantidade" />
             <input v-model="lote" type="number" placeholder="Lote" />
             <input v-model="tipo" type="text" placeholder="Tipo" />
-            <input v-model="id_ativo" type="text" placeholder="id_ativo" />
             <button @click="alterarAtivo"><b>Alterar</b></button>
           </div>
         </div>
@@ -43,71 +43,86 @@
 export default {
   data() {
     return {
+      id_ativo: '',
       nome: '',
       quantidade: '',
       lote: '',
-      tipo: '',
-      id_ativo: ''
+      tipo: ''
     };
-  },
-  created() {
-    // Se o id_ativo for passado como parâmetro, carregamos os dados do ativo.
-    if (this.id_ativo) {
-      this.carregarAtivo(this.id_ativo);
-    }
   },
   methods: {
     toggleDarkMode() {
       // Alterna entre modo claro e escuro
       document.body.classList.toggle('dark-mode');
     },
-    // Método para carregar os dados do ativo baseado no id_ativo
-    carregarAtivo(id) {
-      // Substitua a URL pela URL da sua API real
-      fetch(`https://api.example.com/ativos/${id}`)
+
+    // Método para carregar os dados do ativo com base no id_ativo
+    carregarAtivo() {
+      // Verifica se o id_ativo não está vazio
+      if (!this.id_ativo) {
+        alert("Por favor, insira um ID de ativo válido.");
+        return;
+      }
+
+      console.log(`Tentando carregar o ativo com ID: ${this.id_ativo}`);
+      
+      // Realiza uma requisição GET para buscar os dados do ativo
+      fetch(`http://localhost:5000/api/produtos/produtos/${this.id_ativo}`)
         .then(response => {
+          console.log('Status da resposta:', response.status);
           if (!response.ok) {
             throw new Error(`Erro ao carregar ativo. Status: ${response.status}`);
           }
           return response.json();
         })
         .then(data => {
-          this.nome = data.nome;
-          this.quantidade = data.quantidade;
-          this.lote = data.lote;
-          this.tipo = data.tipo;
+          console.log('Dados retornados:', data); // Verifique os dados retornados
+          
+          // Preenche os campos com os dados do ativo
+          this.nome = data.nome || '';
+          this.quantidade = data.quantidade || '';
+          this.lote = data.lote || '';
+          this.tipo = data.tipo || '';
         })
         .catch(error => {
           console.error('Erro ao carregar o ativo:', error);
-          alert("Erro ao carregar o ativo.");
+          alert("Erro ao carregar o ativo. Verifique se o ID está correto.");
         });
     },
+
     // Método para alterar o ativo
     alterarAtivo() {
-      // Verifica se todos os campos estão preenchidos
-      if (!this.nome || !this.quantidade || !this.lote || !this.tipo || !this.id_ativo) {
+      if (!this.id_ativo || !this.nome || !this.quantidade || !this.lote || !this.tipo) {
         alert("Todos os campos devem ser preenchidos!");
         return;
       }
 
-      // Objeto com os dados a serem alterados
+      // Garantir que a quantidade seja um número
+      const quantidadeNumber = parseFloat(this.quantidade);
+      if (isNaN(quantidadeNumber)) {
+        alert("Quantidade deve ser um número válido!");
+        return;
+      }
+
       const ativo = {
         nome: this.nome,
-        quantidade: this.quantidade,
+        quantidade: quantidadeNumber,
         lote: this.lote,
         tipo: this.tipo
       };
 
-      // Envia a requisição PUT para alterar o ativo
-      fetch(`https://api.example.com/ativos/${this.id_ativo}`, {
-        method: 'PUT', // Método de atualização
+      fetch(`http://localhost:5000/api/produtos/${this.id_ativo}`, {
+        method: 'put',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify(ativo)
       })
         .then(response => {
           if (!response.ok) {
+            console.log(response);
+            
             throw new Error(`Erro ao alterar o ativo. Status: ${response.status}`);
           }
           return response.json();

@@ -7,13 +7,12 @@
           </a>
         </div>
         <nav class="nav-links">
-          <a href="ativos.html">Adicionar</a>
-          <a href="remover.html">Remover</a>
-          <a href="#">Alterar</a>
-          <a href="relatorio.html">Relatório</a>
-          <a href="help.html">Fale Conosco</a>
-          <i class="fa-solid fa-moon" @click="toggleDarkMode"></i>
-        </nav>
+          <router-link to="/ativos">Adicionar</router-link>
+          <router-link to="/remover">Remover</router-link>
+          <router-link to="/alterar">Alterar</router-link>
+          <router-link to="/relatorio">Relatório</router-link>
+          <router-link to="/help">Ajuda</router-link>
+      </nav>
       </header>
   
       <section class="main-section2">

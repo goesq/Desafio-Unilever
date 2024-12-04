@@ -5,13 +5,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+
+
 // inicialização do app
 const app = express();
 app.use(cors());
 app.use(express.json()); // Para analisar JSON no corpo das requisições
 
+
+app.use(cors({
+    origin: 'http://localhost:8080', // Seu front-end Vue
+}));
+
 const authRoutes = require('./Routes/authRoutes');
-const productRoutes = require('./Routes/produtos'); 
+const productRoutes = require('./Routes/produtos');
 
 // Conexão com o MongoDB
 mongoose.connect('mongodb+srv://techapoiosenai:12345@cluster0.3dcip.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
