@@ -26,7 +26,7 @@
             <form action="mailto:suporte@controleunilever.com" method="post" enctype="text/plain">
               <label for="email">Seu Email:</label>
               <input type="email" id="email" name="email" required />
-              <input type="submit" value="Enviar" />
+              <input type="submit" value="Enviar" class="submit-button" />
             </form>
             <div class="comunicado">
               <h3>Comunicado Importante</h3>
@@ -54,9 +54,9 @@
         </div>
       </section>
   
-      <footer>
+      <div class="footer2">
         <p>Todos os direitos reservados © | ControleUnilever - 2024</p>
-      </footer>
+      </div>
     </div>
   </template>
   

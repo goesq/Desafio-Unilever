@@ -365,3 +365,39 @@ main .main-section img {
         height: 460px;
     }
 }
+
+    .comunicado {
+    text-align: center;
+    padding: 80px;
+    line-height: 1.8; /* Aumenta o espaçamento entre as linhas */
+    width: 80%; /* Restringe a largura do texto */
+    margin: 0 auto; /* Centraliza o bloco */
+}
+
+
+    .section-wrapper2 {
+        display: flex; 
+        padding: 80px;
+        text-align: center;
+
+    }
+
+    
+/* Estilo base do botão */
+.submit-button {
+    background-color: #007bff; /* Cor de fundo (ajuste conforme necessário) */
+    color: white; /* Cor do texto */
+    border: none; /* Remove a borda padrão */
+    padding: 10px 20px; /* Espaçamento interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    font-size: 16px; /* Tamanho da fonte */
+    cursor: pointer; /* Aparece como um botão clicável */
+    transition: background-color 0.3s ease; /* Efeito de transição suave para a cor */
+    align-items: center;
+}
+
+/* Efeito ao passar o mouse (hover) */
+.submit-button:hover {
+    background-color: #1750f9; /* Cor de fundo ao passar o mouse */
+    text-decoration: none; /* Remove qualquer sublinhado */
+}
